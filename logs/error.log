@@ -1,0 +1,9 @@
+{"level":"error","message":"Error:","timestamp":"2025-06-20T16:09:03.731Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-20T16:10:53.249Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-20T16:11:14.857Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-20T16:11:24.227Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-20T16:18:54.182Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-20T16:19:14.719Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-20T16:19:21.696Z"}
+{"level":"error","message":"Error:","timestamp":"2025-06-21T18:56:06.946Z"}
+{"code":"ECONNREFUSED","hostname":"_mongodb._tcp.cluster0.lodch9w.mongodb.net","level":"error","message":"MongoDB connection error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.lodch9w.mongodb.net","stack":"Error: querySrv ECONNREFUSED _mongodb._tcp.cluster0.lodch9w.mongodb.net\n    at QueryReqWrap.onresolve [as oncomplete] (node:internal/dns/promises:294:17)","syscall":"querySrv","timestamp":"2025-06-21T20:19:10.189Z"}
