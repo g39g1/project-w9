@@ -4,9 +4,10 @@ import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import authRoutes from '../src/router/auth.router'
-import weatherRoutes from '../src/router/weather.router';  
-import historyRoutes from '../src/router/history.router';  
+import authRoutes from './router/auth.router';  
+import weatherRoutes from './router/weather.router';  
+import historyRoutes from './router/history.router';  
+
 import logger from './utils/logger'; 
 import { connectDB } from './config/database';  
 
