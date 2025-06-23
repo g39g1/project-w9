@@ -1,87 +1,26 @@
 import { Request, Response } from 'express';
-import jwt from 'jsonwebtoken';
-import bcrypt from 'bcryptjs';
-import User from '../model/user.model';
-import { AppError } from '../utils/error';
-
-const JWT_SECRET = process.env.JWT_SECRET || 'dev_secret';
+import { signupService, signinService } from '../services/auth.service';
 
 export const signup = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { email, password, role = 'user' } = req.body;
-
-    const user = await User.findOne({ email });
-    if (user) {
-      throw new AppError("Email already registered", 400);   
-    }
-
-    const passwordHash = await bcrypt.hash(password, 12);
-
-    const newUser = await User.create({ email, passwordHash, role });
-
-    const token = jwt.sign({ userId: newUser._id }, JWT_SECRET, { expiresIn: '1h' });
-
-    res.status(201).json({
-      userId: newUser._id,
-      token,
-    });
+    const { email, password, role } = req.body;
+    const result = await signupService(email, password, role);
+    res.status(201).json(result);
   } catch (err: any) {
-    res.status(err.statusCode || 500)
-    .json({ error: err.message });
+    const statusCode = err?.statusCode || 500;
+    const message = err?.message || "Something went wrong";
+    res.status(statusCode).json({ error: message });
   }
 };
 
 export const signin = async (req: Request, res: Response): Promise<void> => {
   try {
     const { email, password } = req.body;
-
-    if (!email || !password) {
-       res.status(400).json({
-        error: "Email and password are required",
-      });
-      return
-    }
-
-    const user = await User.findOne({ email });
-    if (!user) {
-       res.status(401).json({
-        error: "Invalid email or password",
-      });
-      return
-    }
-
-    const isPasswordValid = await bcrypt.compare(password, user.passwordHash);
-    if (!isPasswordValid) {
-       res.status(401).json({
-        error: "Invalid email or password",
-      });
-      return
-    }
-
-    const token = jwt.sign({ userId: String(user._id) }, JWT_SECRET, {
-      expiresIn: "1d",
-    });
-
-    res.status(200).json({
-      token,
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "Failed to sign in",
-    });
+    const result = await signinService(email, password);
+    res.status(200).json(result);
+  } catch (err: any) {
+    const statusCode = err?.statusCode || 500;
+    const message = err?.message || "Something went wrong";
+    res.status(statusCode).json({ error: message });
   }
 };
-
-export const signout = async (req: Request, res: Response): Promise<void> => {
-  try {
-    res.status(200).json({
-      message: "Successfully signed out",
-    });
-  } catch (error) {
-    res.status(500).json({
-      error: "Failed to sign out",
-    });
-  }
-};
-
-
