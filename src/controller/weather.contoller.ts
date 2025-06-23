@@ -4,7 +4,6 @@ import { getWeatherData } from "../services/weather.service";
 export const getWeather = async (req: Request, res: Response): Promise<void> => {
     let { lon, lat } = req.query;
 
-    // التأكد من أن lon و lat هما من النوع string
     if (typeof lon !== "string" || typeof lat !== "string") {
           res.status(400).json({
             success: false,
@@ -14,7 +13,6 @@ export const getWeather = async (req: Request, res: Response): Promise<void> => 
     }
 
    
-    // التأكد من أن lon و lat هما أرقام صالحة
     if ((lon) || (lat)) {
           res.status(400).json({
             success: false,
@@ -41,7 +39,6 @@ export const getWeather = async (req: Request, res: Response): Promise<void> => 
     }
 
     try {
-        // استدعاء خدمة الطقس
         const weatherData = await getWeatherData(token, lon, lat);
 
         if (weatherData.error) {
@@ -52,7 +49,6 @@ export const getWeather = async (req: Request, res: Response): Promise<void> => 
             return
         }
 
-        // إرسال الاستجابة
           res.status(200).json({
             success: true,
             source: weatherData.source,

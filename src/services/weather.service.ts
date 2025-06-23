@@ -6,7 +6,6 @@ import axios from 'axios';
 
 export const getWeatherData = async (token: string, lon: string, lat: string) => {
     try {
-        // التحقق من الـ Token
         const verify = verifyToken(token);
         if (!verify || !(verify as JwtPayload).userId) {
             return {
@@ -17,7 +16,6 @@ export const getWeatherData = async (token: string, lon: string, lat: string) =>
 
         const userIdentifier = (verify as JwtPayload).userId;
 
-        // التحقق إذا كانت البيانات موجودة بالفعل في قاعدة البيانات
         const weatherExist = await Weather.findOne({ lon, lat });
         if (weatherExist) {
             const newHistory = new History({
@@ -34,7 +32,6 @@ export const getWeatherData = async (token: string, lon: string, lat: string) =>
             };
         }
 
-        // إذا لم تكن البيانات موجودة، استرجاعها من OpenWeatherMap
         const getFromEApi = await axios.get(`https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${process.env.OPENWEATHER_API_KEY}`);
         const weatherData = getFromEApi.data;
 

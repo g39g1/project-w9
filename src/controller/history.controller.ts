@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { getLogs } from '../services/logs.service';  // استيراد الخدمة
+import { getLogs } from '../services/logs.service';  
 
 export const Logs = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -12,7 +12,7 @@ export const Logs = async (req: Request, res: Response): Promise<void> => {
       return;
     }
 
-    const result = await getLogs(token);  // استدعاء الخدمة هنا
+    const result = await getLogs(token);  
 
     if (result.error) {
        res.status(result.statusCode).json({ error: result.error });
